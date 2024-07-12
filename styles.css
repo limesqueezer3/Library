@@ -1,0 +1,14 @@
+body {
+    margin: 0px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.container {
+    flex-wrap: wrap;
+    display: flex;
+}
