@@ -1,9 +1,45 @@
 const library = new Library();
 const controller = new Controller(library);
+const view = new View(controller);
 // add pseudo book
 library.addBook("arthur's adventures", "dave", 45, true);
 
+const createBookButton = document.querySelector("#createBook");
+const confirmBtn = document.querySelector("#confirmBtn");
+const dialog = document.querySelector("#dialog");
+let book;
 
+
+let output;
+
+// "Show the dialog" button opens the <dialog> modally
+createBookButton.addEventListener("click", () => {
+    dialog.showModal();
+});
+
+// "Cancel" button closes the dialog without 
+//submitting because of [formmethod="dialog"], 
+//triggering a close event.
+dialog.addEventListener("close", (e) => {
+    if (book) {
+        console.log(book);
+    } 
+});
+
+// Prevent the "confirm" button from the default behavior of submitting the form, and close the dialog with the `close()` method, which triggers the "close" event.
+confirmBtn.addEventListener("click", (event) => {
+    event.preventDefault(); // We don't want to submit this fake form
+    let title = document.querySelector('#title').value;
+    let author = document.querySelector('#author').value;
+    let nPages = document.querySelector('#nPages').value;
+    let read = document.querySelector('#read').checked;
+    book = {title, author, nPages, read};
+    dialog.close(); 
+    title.value = '';
+    author.value = '';
+    nPages.value = '';
+    read.checked = false;
+});
 
 function Book (title, author, nPages, read) {
     this.title = title;
@@ -60,10 +96,5 @@ function Controller (library) {
 
 function View(controller) {
     this.controller = controller;
-    const form = document.querySelector("form");
-    
-
     this.updateDisplay = controller.updateView();
-
-
 }
