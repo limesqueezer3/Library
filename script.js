@@ -7,6 +7,7 @@ library.addBook("arthur's adventures", "dave", 45, true);
 const createBookButton = document.querySelector("#createBook");
 const confirmBtn = document.querySelector("#confirmBtn");
 const dialog = document.querySelector("#dialog");
+const createBookForm = document.querySelector("form");
 let book;
 
 
@@ -22,23 +23,21 @@ createBookButton.addEventListener("click", () => {
 //triggering a close event.
 dialog.addEventListener("close", (e) => {
     if (book) {
-        console.log(book);
+        controller.addBook(book.title, book.author, book.npages, book.read);
+        controller.updateView();
     } 
 });
 
 // Prevent the "confirm" button from the default behavior of submitting the form, and close the dialog with the `close()` method, which triggers the "close" event.
 confirmBtn.addEventListener("click", (event) => {
     event.preventDefault(); // We don't want to submit this fake form
-    let title = document.querySelector('#title').value;
-    let author = document.querySelector('#author').value;
-    let nPages = document.querySelector('#nPages').value;
-    let read = document.querySelector('#read').checked;
+    const title = document.querySelector('#title').value;
+    const author = document.querySelector('#author').value;
+    const nPages = document.querySelector('#nPages').value;
+    const read = document.querySelector('#read').checked;
     book = {title, author, nPages, read};
     dialog.close(); 
-    title.value = '';
-    author.value = '';
-    nPages.value = '';
-    read.checked = false;
+    createBookForm.reset();
 });
 
 function Book (title, author, nPages, read) {
@@ -73,6 +72,7 @@ function Controller (library) {
     
     this.updateView = function () {
         const container = document.querySelector(".container");
+
         const books = this.library.getLibrary();
         for (let book of books) {
             const bookView = document.createElement("div");
@@ -98,3 +98,4 @@ function View(controller) {
     this.controller = controller;
     this.updateDisplay = controller.updateView();
 }
+
