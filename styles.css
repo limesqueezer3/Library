@@ -4,8 +4,16 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     padding: 10px;
+}
+
+h1 {
+    align-self: center;
+}
+
+#createBook {
+    align-self: center;
+    padding: 20px;
 }
 
 .container {

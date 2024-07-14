@@ -23,7 +23,7 @@ createBookButton.addEventListener("click", () => {
 //triggering a close event.
 dialog.addEventListener("close", (e) => {
     if (book) {
-        controller.addBook(book.title, book.author, book.npages, book.read);
+        controller.addBook(book.title, book.author, book.nPages, book.read);
         controller.updateView();
     } 
 });
@@ -72,11 +72,25 @@ function Controller (library) {
     
     this.updateView = function () {
         const container = document.querySelector(".container");
-
+        //remove all existing children
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
         const books = this.library.getLibrary();
         for (let book of books) {
             const bookView = document.createElement("div");
-            bookView.innerHTML = book.title;
+            const titleView = document.createTextNode(book.title);
+            const authorView = document.createTextNode(book.author);
+            const nPagesView = document.createElement("div");
+            nPagesView.innerHTML = book.nPages;
+            const readView = document.createElement("div");
+            if (book.read) {
+                readView.innerHTML = "Read";
+            } else {
+                readView.innerHTML = "Not yet Read";
+            }
+            bookView.style.padding = '40px';
+            bookView.append(titleView, authorView, nPagesView, readView);
             container.appendChild(bookView);
         }
     }
